@@ -16,6 +16,7 @@ class QueryParser(ABC):
     Responsible for converting the input query string entered by a user into the structured Query
     representation.
     """
+
     @abc.abstractmethod
     def parse_query(self, query_str: str, num_results: int) -> Query:
         """
@@ -31,6 +32,7 @@ class NaiveQueryParser(QueryParser):
     """
     A QueryParser implementation that runs the supplied tokenizer.
     """
+
     def __init__(self, tokenizer: Tokenizer):
         """
         :param tokenizer: A tokenizer instance that will be used in parse_query.
@@ -50,6 +52,7 @@ class ResultFormatter(ABC):
     """
     Abstract class responsible for presenting search results to users.
     """
+
     @abc.abstractmethod
     def format_results_for_display(self, results: SearchResults) -> str:
         """
@@ -65,6 +68,7 @@ class NaiveResultFormatter(ResultFormatter):
     """
     Fake result formatter that just displays the doc_ids of the results.
     """
+
     def format_results_for_display(self, results: SearchResults) -> str:
         return repr(results)
 
@@ -85,6 +89,7 @@ class QueryProcess:
     """
     Class responsible for running the whole query process.
     """
+
     def __init__(
             self, query_parser: QueryParser, index: Index, result_formatter: ResultFormatter):
         """
@@ -163,3 +168,7 @@ if __name__ == "__main__":
     # sys.argv is a list of all the command-line arguments supplied to the script.
     # sys.argv[0] is the name of this script, so actual arguments start from position 1.
     main(index_filename=sys.argv[1], corpus_filename=sys.argv[2])
+
+
+def testing():
+    pass
