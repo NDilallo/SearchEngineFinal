@@ -10,6 +10,9 @@ from search_api import Query, SearchResults
 
 from tokenizer import NaiveTokenizer, Tokenizer
 
+from collections import defaultdict
+import json
+
 
 class QueryParser(ABC):
     """
@@ -164,11 +167,8 @@ def main(index_filename: str, corpus_filename: str) -> None:
         query = input("Please enter a query:")
 
 
-if __name__ == "__main__":
-    # sys.argv is a list of all the command-line arguments supplied to the script.
-    # sys.argv[0] is the name of this script, so actual arguments start from position 1.
-    main(index_filename=sys.argv[1], corpus_filename=sys.argv[2])
-
-
-def testing():
-    pass
+# This was messing stuff up, so I commented it out:
+# if __name__ == "__main__":
+#     # sys.argv is a list of all the command-line arguments supplied to the script.
+#     # sys.argv[0] is the name of this script, so actual arguments start from position 1.
+#     main(index_filename=sys.argv[1], corpus_filename=sys.argv[2])
