@@ -20,9 +20,9 @@ class Thesaurus:
                 if obj.get("term") in tokens:
                     self.synonyms[obj["term"]] = obj.get("syns")
 
-
 # test = Thesaurus()
 # test.add_synonyms(["unable", "abducting"])
 # print(test.synonyms)
 
-#TEST FRITZ
+#TEST FRITZ is a big toneail
+
