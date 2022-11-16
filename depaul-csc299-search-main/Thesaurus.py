@@ -14,6 +14,8 @@ class Thesaurus:
         after the query is tokenized.
         :param tokens: Tokens from the search query in a list.
         """
+        for term in tokens:
+            self.synonyms[term] = ''
         with open(self.thesaurus_file) as fp:
             for line in fp:
                 obj = json.loads(line)

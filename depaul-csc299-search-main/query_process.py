@@ -13,6 +13,8 @@ from tokenizer import NaiveTokenizer, Tokenizer
 from collections import defaultdict
 import json
 
+from Thesaurus import *
+
 
 class QueryParser(ABC):
     """
@@ -48,7 +50,11 @@ class NaiveQueryParser(QueryParser):
         :param query_str: The input query string entered by the user.
         :return: Query representation with tokenized query.
         """
-        return Query(terms=self.tokenizer.tokenize(query_str), num_results=num_results)
+        tokenized_terms = self.tokenizer.tokenize(query_str)
+        thesaurus = Thesaurus()
+        thesaurus.add_synonyms(tokenized_terms)
+        return Query(terms=thesaurus.synonyms, num_results=num_results)
+
 
 
 class ResultFormatter(ABC):
