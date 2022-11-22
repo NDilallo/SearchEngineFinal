@@ -44,6 +44,7 @@ class NaiveIndex(Index):
     def __init__(self, filename: str):
         self.filename = filename
         self.docs = []
+        self.intersects = []
 
     def add_document(self, doc: TransformedDocument) -> None:
         self.docs.append(doc)
@@ -51,13 +52,15 @@ class NaiveIndex(Index):
     def search(self, query: Query) -> SearchResults:
         matching_doc_ids = []
 
-        new_query_terms = set(query.terms)
+        new_query_terms = set(query.terms.keys())
         for k, v in query.terms.items():
             new_query_terms = new_query_terms.union(v)
 
         for doc in self.docs:
-
-            if len(new_query_terms.intersection(doc.tokens)) >= len(query.terms):
+            intersect = new_query_terms.intersection(doc.tokens)
+            self.intersects.append(intersect)
+            if len(intersect) >= len(query.terms):
+                # print(len(intersect), len(query.terms))
                 matching_doc_ids.append(doc.doc_id)
             if len(matching_doc_ids) == query.num_results:
                 break
