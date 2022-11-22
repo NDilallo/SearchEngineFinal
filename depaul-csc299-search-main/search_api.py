@@ -6,7 +6,7 @@ from collections import defaultdict
 
 @dataclasses.dataclass
 class Query:
-    terms: defaultdict(list)
+    terms: defaultdict(set)
     num_results: int
 
 

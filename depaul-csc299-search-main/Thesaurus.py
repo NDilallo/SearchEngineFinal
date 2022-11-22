@@ -5,10 +5,10 @@ import json
 class Thesaurus:
 
     def __init__(self):
-        self.synonyms = defaultdict(list)  # Dictionary of all tokens in query w/ synonyms as values
+        self.synonyms = defaultdict(set)  # Dictionary of all tokens in query w/ synonyms as values
         self.thesaurus_file = 'syns.jsonl'
 
-    def add_synonyms(self, tokens: list) -> None:
+    def add_synonyms(self, tokens: set) -> None:
         """
         Adds the synonyms for each query token into the defaultdict. Should be called
         after the query is tokenized.
@@ -20,7 +20,7 @@ class Thesaurus:
             for line in fp:
                 obj = json.loads(line)
                 if obj.get("term") in tokens:
-                    self.synonyms[obj["term"]] = obj.get("syns")
+                    self.synonyms[obj["term"]] = set(obj.get("syns"))
 
 # test = Thesaurus()
 # test.add_synonyms(["unable", "abducting"])

@@ -52,7 +52,7 @@ class NaiveQueryParser(QueryParser):
         """
         tokenized_terms = self.tokenizer.tokenize(query_str)
         thesaurus = Thesaurus()
-        thesaurus.add_synonyms(tokenized_terms)
+        thesaurus.add_synonyms(set(tokenized_terms))
         return Query(terms=thesaurus.synonyms, num_results=num_results)
 
 

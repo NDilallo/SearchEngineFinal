@@ -49,26 +49,19 @@ class NaiveIndex(Index):
         self.docs.append(doc)
 
     def search(self, query: Query) -> SearchResults:
-        query_terms = list(query.terms)
-        # print(query_terms)
         matching_doc_ids = []
-        count = 0
-        for doc in self.docs:
-            # if query_terms.issubset(doc.tokens):
-            #     matching_doc_ids.append(doc.doc_id)
-            for term in query_terms:
-                if term not in doc.tokens:
-                    for val in query.terms.get(term):
-                        if val in doc.tokens:
-                            count += 1
-                else:
-                    count += 1
-            if count >= len(query_terms):
-                matching_doc_ids.append(doc.doc_id)
 
+        new_query_terms = set(query.terms)
+        for k, v in query.terms.items():
+            new_query_terms = new_query_terms.union(v)
+
+        for doc in self.docs:
+
+            if len(new_query_terms.intersection(doc.tokens)) == len(query.terms):
+                matching_doc_ids.append(doc.doc_id)
             if len(matching_doc_ids) == query.num_results:
                 break
-            count = 0
+
         return SearchResults(result_doc_ids=matching_doc_ids)
 
     def read(self):
