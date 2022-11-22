@@ -57,7 +57,7 @@ class NaiveIndex(Index):
 
         for doc in self.docs:
 
-            if len(new_query_terms.intersection(doc.tokens)) == len(query.terms):
+            if len(new_query_terms.intersection(doc.tokens)) >= len(query.terms):
                 matching_doc_ids.append(doc.doc_id)
             if len(matching_doc_ids) == query.num_results:
                 break
