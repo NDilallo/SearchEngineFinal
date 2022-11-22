@@ -90,3 +90,36 @@ def annotate_results(query_id_to_result_doc_ids: Dict[int, List[str]],
 def score_by_sum_of_eval_values(annotated_results: List[EvalEntry]) -> int:
     return sum([e.eval_value for e in annotated_results])
 
+
+def give_score_with_thesaurus(index, thesaurus):
+    scores = {}
+    score = 0
+    # for i in range(len(index.intersects)):
+    #     for word in index.intersects[i]:
+    #         if word in thesaurus.keys():
+    #             score += 5
+    #         else:
+    #             score += 5 - thesaurus.index(word) + 1
+    #     scores[index.docs[i]["doc_id"]] = score
+    #     score = 0
+    count = 0
+    for intersect in index.intersects:
+        for word in intersect:
+            if word in thesaurus.keys():
+                score += 5
+            else:
+                try:
+                    score += 5 - thesaurus[word].index(word) + 1
+                except:
+                    pass
+
+        doc = index.docs[count]
+        scores[doc.doc_id] = score
+        count += 1
+        score = 0
+
+    return scores
+
+
+def format_scores_for_display(results: dict) -> str:
+    return f"Scores: {results}"

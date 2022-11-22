@@ -43,6 +43,7 @@ class NaiveQueryParser(QueryParser):
         :param tokenizer: A tokenizer instance that will be used in parse_query.
         """
         self.tokenizer = tokenizer
+        self.thesaurus = Thesaurus()
 
     def parse_query(self, query_str: str, num_results: int) -> Query:
         """
@@ -51,9 +52,8 @@ class NaiveQueryParser(QueryParser):
         :return: Query representation with tokenized query.
         """
         tokenized_terms = self.tokenizer.tokenize(query_str)
-        thesaurus = Thesaurus()
-        thesaurus.add_synonyms(set(tokenized_terms))
-        return Query(terms=thesaurus.synonyms, num_results=num_results)
+        self.thesaurus.add_synonyms(set(tokenized_terms))
+        return Query(terms=self.thesaurus.synonyms, num_results=num_results)
 
 
 
@@ -126,7 +126,8 @@ class QueryProcess:
 
 
 def create_naive_query_process(index_filename) -> QueryProcess:
-    index = ListBasedInvertedIndexWithFrequencies(index_filename)
+    # index = ListBasedInvertedIndexWithFrequencies(index_filename)
+    index = NaiveIndex(index_filename)
     index.read()
     process = QueryProcess(
         query_parser=NaiveQueryParser(NaiveTokenizer()),
