@@ -6,7 +6,7 @@ class Thesaurus:
 
     def __init__(self):
         self.synonyms = defaultdict(set)  # Dictionary of all tokens in query w/ synonyms as values
-        self.thesaurus_file = 'syns.jsonl'
+        self.thesaurus_file = 'syns.jsonl' # Provided thesaurus could easily be changed
         self.list_synonyms = defaultdict(list)
 
     def add_synonyms(self, tokens: set) -> None:
@@ -28,7 +28,5 @@ class Thesaurus:
 # test = Thesaurus()
 # test.add_synonyms(["unable", "abducting"])
 # print(test.synonyms)
-
-#yoyoyooy
 
 

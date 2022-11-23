@@ -1,5 +1,4 @@
 import abc
-import sys
 from abc import ABC
 
 import document_source
@@ -9,9 +8,6 @@ from index import Index, NaiveIndex, ListBasedInvertedIndexWithFrequencies, \
 from search_api import Query, SearchResults
 
 from tokenizer import NaiveTokenizer, Tokenizer
-
-from collections import defaultdict
-import json
 
 from Thesaurus import *
 

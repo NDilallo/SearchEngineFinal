@@ -94,25 +94,21 @@ def score_by_sum_of_eval_values(annotated_results: List[EvalEntry]) -> int:
 def give_score_with_thesaurus(index, thesaurus):
     scores = {}
     score = 0
-    # for i in range(len(index.intersects)):
-    #     for word in index.intersects[i]:
-    #         if word in thesaurus.keys():
-    #             score += 5
-    #         else:
-    #             score += 5 - thesaurus.index(word) + 1
-    #     scores[index.docs[i]["doc_id"]] = score
-    #     score = 0
     count = 0
     for intersect in index.intersects:
         for word in intersect:
             if word in thesaurus.keys():
                 score += 5
             else:
-                try:
-                    score += 5 - thesaurus[word].index(word) + 1
-                except:
-                    pass
-
+                for key in thesaurus.keys():
+                    if word in thesaurus[key]:
+                        score += 5 - thesaurus[key].index(word) + 1
+                        if score < 1:
+                            score = 1
+                # try:
+                #     score += 5 - thesaurus[word].index(word) + 1
+                # except:
+                #     pass
         doc = index.docs[count]
         scores[doc.doc_id] = score
         count += 1
@@ -121,5 +117,14 @@ def give_score_with_thesaurus(index, thesaurus):
     return scores
 
 
-def format_scores_for_display(results: dict) -> str:
+def format_all_scores_for_display(results: dict) -> str:
     return f"Scores: {results}"
+
+
+def format_minScore_scores_for_display(results: dict, min_score: int = 7) -> str:
+    display = "Scores: {"
+    for k in results:
+        if results.get(k) >= min_score:
+            display += f"{k}: {results.get(k)}, "
+    display += "}"
+    return display
